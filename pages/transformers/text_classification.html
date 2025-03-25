@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Text Classification</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .hero-section {
+            background: #007bff;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .loader {
+            display: none;
+            margin: 10px auto;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-section">
+        <h1>AI-Powered Text Classification</h1>
+        <p>Analyze the sentiment of your text using a transformer model.</p>
+    </div>
+
+    <div class="container text-center">
+        <h1 class="mb-4">Transformer-Based Text Classification</h1>
+        <p class="lead text-justify">
+            Text classification is a Natural Language Processing (NLP) task where a model assigns predefined categories to a given text. 
+            These models are widely used for sentiment analysis, spam detection, topic labeling, and more.
+        </p>
+        <p class="lead text-justify">
+            Hugging Face provides pre-trained transformer models for text classification, such as BERT, DistilBERT, RoBERTa, and XLNet, 
+            which are fine-tuned on various datasets. These models analyze input text and generate predictions with confidence scores.
+        </p>
+        <p class="lead text-justify">
+            For instance, DistilBERT (distilbert-base-uncased-finetuned-sst-2-english) is optimized for sentiment analysis, 
+            classifying text as positive or negative. These models are accessible via the Hugging Face Inference API and can be easily 
+            integrated into applications.
+        </p>
+        <p class="lead text-justify">
+            By leveraging pre-trained transformers, businesses and developers can implement text classification efficiently 
+            without requiring extensive training data or computing resources.
+        </p>
+    </div>
+    
+    <div class="container text-center mt-4">
+        <h2 class="mb-3">📝 Enter Text for Classification</h2>
+        <p class="mb-4">Type your sentence below to analyze its sentiment.</p>
+        
+        <form id="textForm">
+            <div class="form-group">
+                <input type="text" id="inputText" class="form-control w-75 mx-auto mb-3" placeholder="Type your text here..." required>
+            </div>
+            <button type="submit" class="btn btn-primary">Analyze Sentiment</button>
+        </form>
+
+        <div class="loader" id="loadingSpinner"></div>
+
+        <h4 class="mt-4">Classification Result:</h4>
+        <p id="outputText" class="border p-2 mx-auto" style="width: 50%; font-size: 14px; min-height: 30px;"></p>
+        <br>
+    </div>
+    
+    <script>
+        async function query(data) {
+            try {
+                const response = await fetch(
+                    "https://router.huggingface.co/hf-inference/models/distilbert/distilbert-base-uncased-finetuned-sst-2-english",
+                    {
+                        headers: {
+                            Authorization: "Bearer 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",  // Replace with your actual API key
+                            "Content-Type": "application/json",
+                        },
+                        method: "POST",
+                        body: JSON.stringify(data),
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                console.log("API Response:", result); // Debugging
+
+                return result;
+            } catch (error) {
+                console.error("API Error:", error);
+                return { error: "Error analyzing text." };
+            }
+        }
+
+        document.getElementById('textForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const inputText = document.getElementById('inputText').value;
+            const outputText = document.getElementById('outputText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+
+            outputText.innerText = "";
+            loadingSpinner.style.display = "block";  // Show loading spinner
+
+            try {
+                const response = await query({ inputs: inputText });
+
+                if (Array.isArray(response) && response.length > 0 && Array.isArray(response[0]) && response[0].length > 0) {
+                    // Extract first classification result
+                    const label = response[0][0].label || "Unknown";
+                    const confidence = response[0][0].score ? (response[0][0].score * 100).toFixed(2) : "N/A";
+
+                    outputText.innerHTML = `<strong>Classification:</strong> ${label} <br> <strong>Confidence:</strong> ${confidence}%`;
+                } else {
+                    outputText.innerText = "Unexpected API response format.";
+                }
+            } catch (error) {
+                outputText.innerText = "Error analyzing text.";
+            } finally {
+                loadingSpinner.style.display = "none";  // Hide loading spinner
+            }
+        });
+    </script>
+
+</body>
+</html>
