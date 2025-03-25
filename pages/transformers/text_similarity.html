@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Similarity Checker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .hero-section {
+            background: #007bff;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-section">
+        <h1>AI-Powered Text Similarity Checker</h1>
+        <p>Compare sentences and measure their similarity using advanced AI models.</p>
+    </div>
+
+    <div class="container mt-4">
+        <h2 class="mb-3 text-center">🔍 What is Text Similarity?</h2>
+        <p class="text-justify">
+            Text similarity is a method of measuring how semantically close two sentences are. 
+            Using the <strong>all-MiniLM-L6-v2</strong> model, we can convert sentences into numerical vectors and 
+            compare them using <strong>cosine similarity</strong>. A score close to <strong>1.0</strong> means the sentences 
+            are very similar, while a score near <strong>0.0</strong> means they are unrelated.
+        </p>
+        
+        <h3 class="text-center mt-4">How It Works</h3>
+        <ul>
+            <li>Enter a <strong>source sentence</strong>.</li>
+            <li>Enter multiple <strong>comparison sentences</strong> (one per line).</li>
+            <li>Click the "Check Similarity" button.</li>
+            <li>The app will compute a <strong>similarity score</strong> for each sentence.</li>
+        </ul>
+
+        <h3 class="text-center mt-4">Example Similarity Scores</h3>
+        <p><strong>Source Sentence:</strong> "I love programming."</p>
+        <ul>
+            <li>"I enjoy coding." → <strong>0.89</strong> (High similarity)</li>
+            <li>"The weather is nice today." → <strong>0.12</strong> (Low similarity)</li>
+            <li>"I like writing software." → <strong>0.85</strong> (High similarity)</li>
+        </ul>
+    </div>
+
+    <div class="container text-center mt-4">
+        <h2 class="mb-3">📝 Try It Yourself</h2>
+        
+        <form id="similarityForm">
+            <div class="form-group">
+                <input type="text" id="sourceText" class="form-control w-75 mx-auto mb-3" placeholder="Enter source sentence..." required>
+                <textarea id="comparisonTexts" class="form-control w-75 mx-auto mb-3" rows="3" placeholder="Enter comparison sentences (one per line)..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Check Similarity</button>
+        </form>
+
+        <h4 class="mt-4">Similarity Scores:</h4>
+        <div id="similarityResults" class="border p-3 mx-auto" style="width: 75%; font-size: 16px; min-height: 30px;"></div>
+        <br>
+    </div>
+
+    <script>
+        async function query(data) {
+            const response = await fetch(
+                "https://router.huggingface.co/hf-inference/pipeline/sentence-similarity/sentence-transformers/all-MiniLM-L6-v2",
+                {
+                    headers: {
+                        Authorization: "Bearer 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", // Replace with your Hugging Face token
+                        "Content-Type": "application/json",
+                    },
+                    method: "POST",
+                    body: JSON.stringify(data),
+                }
+            );
+            return await response.json();
+        }
+
+        document.getElementById('similarityForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const sourceText = document.getElementById('sourceText').value;
+            const comparisonTexts = document.getElementById('comparisonTexts').value.split("\n").map(s => s.trim()).filter(s => s.length > 0);
+
+            document.getElementById('similarityResults').innerHTML = "<p>Processing...</p>";
+
+            if (!sourceText || comparisonTexts.length === 0) {
+                document.getElementById('similarityResults').innerHTML = "<p>Please enter the required texts.</p>";
+                return;
+            }
+
+            try {
+                const response = await query({
+                    inputs: {
+                        "source_sentence": sourceText,
+                        "sentences": comparisonTexts
+                    }
+                });
+
+                let resultHTML = "<ul class='list-group'>";
+                response.forEach((score, index) => {
+                    resultHTML += `<li class="list-group-item"><strong>${comparisonTexts[index]}</strong>: ${score.toFixed(2)}</li>`;
+                });
+                resultHTML += "</ul>";
+
+                document.getElementById('similarityResults').innerHTML = resultHTML;
+            } catch (error) {
+                document.getElementById('similarityResults').innerHTML = "<p>Error processing request</p>";
+            }
+        });
+    </script>
+
+</body>
+</html>
