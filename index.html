@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap 4 Homepage</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+    <style>
+        .hero {
+            background: url('https://source.unsplash.com/1600x900/?technology,ai') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+        .nav-pills .nav-link {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">My Website</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="pill" href="#machine-learning">Machine Learning</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#deep-learning">Deep Learning</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#data-science">Data Science</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#Transformers">Transformers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#ai">Artificial Intelligence</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    
+    <div class="tab-content container mt-4">
+        <div id="machine-learning" class="tab-pane fade show active">
+            <h2>Machine Learning</h2>
+            <p>Machine Learning is a core component of Artificial Intelligence that includes how machines can analyze data, identify patterns, and make decisions with low to no human intervention.</p>
+            <p>With the ever-increasing demand for machine-automated solutions, ML has become one of the rapidly evolving technologies along with AI & Data Science.</p>
+            <br>
+            <h3>Machine Learning Projects List</h3>
+        </div>
+        
+        <div id="deep-learning" class="tab-pane fade">
+            <h2>Deep Learning</h2>
+            <p>Deep Learning, also known as neural learning or deep neural learning, is a part of Machine Learning that uses networks for learning from unorganized or unlabelled datasets.</p>
+            <br>
+            <h3>Deep Learning Projects List</h3>
+        </div>
+        
+        <div id="data-science" class="tab-pane fade">
+            <h2>Data Science</h2>
+            <p>Data Science is the process that defines the algorithms, methods, and techniques required to analyze data to extract patterns, meaning, or sense that can be used for decision-making or prediction purposes.</p>
+            <p>Today, data science is applied in statistics, business intelligence, and computer science fields to be applied in finance, e-commerce, sales, marketing, and related domains worldwide.</p>
+            <br>
+            <h3>Data Science Projects List</h3>
+        </div>
+
+        <div id="Transformers" class="tab-pane fade">
+            <h2>Transformers</h2>
+            <p>Transformers are deep learning models designed for processing sequential data, especially in NLP tasks. 
+            <br>
+            They use self-attention mechanisms to understand context and relationships in text. </p>
+            <p>Transformers power models like BERT and GPT, enabling advanced AI applications. Their efficiency has revolutionized machine learning and AI research.</p>
+            <br>
+            <h3>Transformers Projects List</h3>
+            <div class="container">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <a href="pages/transformers/text-summary.html" class="text-primary font-weight-bold">Text Summarizer - BART Model</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="pages/transformers/text-emotions.html" class="text-primary font-weight-bold">Text Emotions Analyser</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="ai" class="tab-pane fade">
+            <h2>Artificial Intelligence</h2>
+            <p>Artificial Intelligence (AI) enables machines to simulate human intelligence, learning from data to make decisions.
+            <br>
+            It powers applications in automation, healthcare, finance, and more.</p>
+            <p>AI includes machine learning, deep learning, and natural language processing. Its rapid growth is shaping the future of technology..</p>
+            <br>
+            <h3>AI Projects List</h3>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
