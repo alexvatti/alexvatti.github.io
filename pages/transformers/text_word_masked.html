@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mask Word Transformer</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .hero-section {
+            background: #007bff;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .loader {
+            display: none;
+            margin: 10px auto;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-section">
+        <h1>AI-Powered Masked Language Model</h1>
+        <p>Predict missing words in a sentence using contextual information.</p>
+    </div>
+    <div class="container text-center">
+        <h1 class="mb-4">BERT-Base Uncased: Transformer for NLP Tasks</h1>
+        <p class="lead text-justify">
+            BERT is a transformer model pretrained on a vast English corpus using self-supervised learning. It learns from raw text without human labeling, leveraging an automated process to generate inputs and labels. This enables it to utilize large amounts of publicly available data for training
+        </p>
+        <p class="lead text-justify">
+            Masked Language Modeling (MLM) randomly masks 15% of words in a sentence and predicts them, allowing BERT to learn bidirectional representations. Unlike RNNs, which process words sequentially, and GPT, which masks future tokens, BERT sees the entire context. Next Sentence Prediction (NSP) trains BERT to determine if two concatenated sentences were originally consecutive, enhancing its understanding of text relationships.
+        </p>
+    </div>
+    
+
+    <div class="container text-center mt-4">
+        <h2 class="mb-3">🔍 Masked Language Modeling</h2>
+        <p class="mb-4">Enter a sentence with a masked word (use [MASK]) to get predictions.</p>
+        
+        <form id="maskForm">
+            <div class="form-group">
+                <input type="text" id="inputText" class="form-control w-75 mx-auto mb-3" placeholder="Type your text with [MASK] here..." required>
+            </div>
+            <button type="submit" class="btn btn-primary">Predict Masked Word</button>
+        </form>
+        
+        <h4 class="mt-4">Transformed Text:</h4>
+        <p id="outputText" class="border p-1 mx-auto" style="width: 50%; font-size: 14px; min-height: 30px;"></p>
+        <br>
+    </div>
+    
+    <script>
+        document.getElementById('maskForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const inputText = document.getElementById('inputText').value;
+            document.getElementById('outputText').innerText = "Loading...";
+
+            const response = await fetch('https://api-inference.huggingface.co/models/bert-base-uncased', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer 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'
+                },
+                body: JSON.stringify({ inputs: inputText })
+            });
+            
+            try {
+                const data = await response.json();
+                if (Array.isArray(data) && data.length > 0) {
+                    document.getElementById('outputText').innerText = data[0].sequence;
+                } else {
+                    document.getElementById('outputText').innerText = 'No result found';
+                }
+            } catch (error) {
+                document.getElementById('outputText').innerText = 'Error processing request';
+            }
+        });
+    </script>
+
+</body>
+</html>
+
+
