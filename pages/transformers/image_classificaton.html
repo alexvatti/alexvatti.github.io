@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NSFW Image Detection</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .hero-section {
+            background:  #007bff;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .loader {
+            display: none;
+            margin: 10px auto;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-section">
+        <h1>AI-Powered NSFW Image Detection</h1>
+        <p>Detect inappropriate content in images using AI.</p>
+    </div>
+
+    <div class="container text-center mt-4">
+        <h2 class="mb-3">What is NSFW?</h2>
+        <p class="mb-4 text-left"><strong>NSFW</strong> stands for "Not Safe For Work." It refers to content that is inappropriate for professional or public settings, such as explicit images, videos, or text. This AI-powered tool helps detect such content to ensure a safer digital environment. Organizations, developers, and content platforms can use this tool to moderate user-generated content and maintain compliance with community guidelines.</p>
+
+        <p class="mb-4 text-left"><strong>The Fine-Tuned Vision Transformer (ViT) </strong>is a variant of the transformer encoder architecture, similar to BERT, that has been adapted for image classification tasks.</p>
+
+        <h2 class="mb-3">📷 Upload an Image</h2>
+        <p class="mb-4">Choose an image to check for NSFW content.</p>
+
+        <form id="imageForm">
+            <input type="file" id="imageInput" class="form-control w-50 mx-auto mb-3" accept="image/*" required>
+            <button type="submit" class="btn btn-primary">Analyze Image</button>
+        </form>
+
+        <div class="loader" id="loadingSpinner"></div>
+
+        <h4 class="mt-4">Analysis Result:</h4>
+        <p id="outputText" class="border p-2 mx-auto" style="width: 50%; font-size: 14px; min-height: 30px;"></p>
+    </div>
+    
+    <script>
+        async function query(imageFile) {
+            const reader = new FileReader();
+            
+            return new Promise((resolve, reject) => {
+                reader.onload = async function () {
+                    try {
+                        const response = await fetch(
+                            "https://router.huggingface.co/hf-inference/models/Falconsai/nsfw_image_detection",
+                            {
+                                headers: {
+                                    Authorization: "Bearer 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", // Replace with your actual API key
+                                    "Content-Type": imageFile.type
+                                },
+                                method: "POST",
+                                body: reader.result,
+                            }
+                        );
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+
+                        resolve(await response.json());
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+                reader.readAsArrayBuffer(imageFile);
+            });
+        }
+
+        document.getElementById('imageForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const imageInput = document.getElementById('imageInput').files[0];
+            const outputText = document.getElementById('outputText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+
+            if (!imageInput) {
+                alert("Please select an image to analyze.");
+                return;
+            }
+
+            outputText.innerText = "";
+            loadingSpinner.style.display = "block";
+
+            try {
+                const response = await query(imageInput);
+                console.log("API Response:", response);
+
+                if (Array.isArray(response)) {
+                    let resultHTML = "<strong>Predictions:</strong><br>";
+                    response.forEach((item, index) => {
+                        const label = item.label || "Unknown";
+                        const confidence = item.score ? (item.score * 100).toFixed(2) : "N/A";
+                        resultHTML += `${index + 1}: ${label} - <strong>${confidence}%</strong><br>`;
+                    });
+                    outputText.innerHTML = resultHTML;
+                } else {
+                    outputText.innerText = "Unexpected API response format. Check console for details.";
+                }
+            } catch (error) {
+                outputText.innerText = "Error analyzing the image.";
+                console.error("API Error:", error);
+            } finally {
+                loadingSpinner.style.display = "none";
+            }
+        });
+    </script>
+
+</body>
+</html>
