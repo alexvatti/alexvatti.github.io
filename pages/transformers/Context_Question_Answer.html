@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Question Answering</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .hero-section {
+            background: #007bff;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .loader {
+            display: none;
+            margin: 10px auto;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-section">
+        <h1>AI-Powered Question Answering</h1>
+        <p>Find answers from a given context using a transformer model.</p>
+    </div>
+
+    <div class="container text-center">
+        <h1 class="mb-4">Transformer-Based Question Answering</h1>
+        <p class="lead text-justify">
+            Question Answering (QA) is a Natural Language Processing (NLP) task where a model extracts answers from a provided text. 
+            This approach is widely used in chatbots, virtual assistants, and automated customer support systems.
+        </p>
+        <p class="lead text-justify">
+            Hugging Face provides pre-trained transformer models for QA, such as BERT, DistilBERT, and RoBERTa. These models analyze the input question 
+            and context and extract the most relevant answer.
+        </p>
+        <p class="lead text-justify">
+            In this demo, we use the DistilBERT model (`distilbert-base-cased-distilled-squad`) via Hugging Face’s Inference API to extract answers from user-provided text.
+        </p>
+    </div>
+    
+    <div class="container text-center mt-4">
+        <h2 class="mb-3">📝 Enter Context & Ask a Question</h2>
+        <p class="mb-4">Provide a passage and ask a relevant question.</p>
+        
+        <form id="qaForm">
+            <div class="form-group">
+                <textarea id="context" class="form-control w-75 mx-auto mb-3" rows="4" placeholder="Enter context text here..." required></textarea>
+            </div>
+            <div class="form-group">
+                <input type="text" id="question" class="form-control w-75 mx-auto mb-3" placeholder="Enter your question..." required>
+            </div>
+            <button type="submit" class="btn btn-primary">Get Answer</button>
+        </form>
+
+        <div class="loader" id="loadingSpinner"></div>
+
+        <h4 class="mt-4">Extracted Answer:</h4>
+        <p id="outputText" class="border p-2 mx-auto" style="width: 50%; font-size: 14px; min-height: 30px;"></p>
+        <br>
+    </div>
+    
+    <script>
+        async function fetchAnswer(data) {
+            try {
+                const response = await fetch(
+                    "https://api-inference.huggingface.co/models/distilbert/distilbert-base-cased-distilled-squad",
+                    {
+                        headers: {
+                            Authorization: "Bearer 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",  // Replace with your actual API key
+                            "Content-Type": "application/json",
+                        },
+                        method: "POST",
+                        body: JSON.stringify(data),
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                console.log("API Response:", result); // Debugging
+
+                return result;
+            } catch (error) {
+                console.error("API Error:", error);
+                return { error: "Error retrieving the answer." };
+            }
+        }
+
+        document.getElementById('qaForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const context = document.getElementById('context').value;
+            const question = document.getElementById('question').value;
+            const outputText = document.getElementById('outputText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+
+            outputText.innerText = "";
+            loadingSpinner.style.display = "block";  // Show loading spinner
+
+            try {
+                const response = await fetchAnswer({ 
+                    inputs: { question: question, context: context } 
+                });
+
+                if (response.answer) {
+                    outputText.innerHTML = `<strong>Answer:</strong> ${response.answer}`;
+                } else {
+                    outputText.innerText = "No answer found.";
+                }
+            } catch (error) {
+                outputText.innerText = "Error retrieving the answer.";
+            } finally {
+                loadingSpinner.style.display = "none";  // Hide loading spinner
+            }
+        });
+    </script>
+
+</body>
+</html>
