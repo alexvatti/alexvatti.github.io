@@ -1,0 +1,56 @@
+<div class="container my-5">
+    <h1 class="text-center mb-4">Transformers Architecture in NLP</h1>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">What are Transformers?</h5>
+            <p class="card-text">
+                Transformers are deep learning models designed for handling sequential data, particularly in natural language processing (NLP). 
+                Introduced in the paper <em>"Attention is All You Need"</em> (2017), they use self-attention mechanisms to model relationships between words, regardless of their position in the sequence.
+            </p>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">1. Encoder</h5>
+            <p class="card-text">
+                The encoder takes an input sequence (e.g., a sentence) and converts it into a contextual representation (embeddings) using stacked self-attention and feed-forward layers.
+                <br><strong>Example Models:</strong> BERT, RoBERTa (good for understanding text).
+            </p>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">2. Decoder</h5>
+            <p class="card-text">
+                The decoder takes encoded representations and generates output sequences one token at a time. It uses masked self-attention to ensure prediction happens in sequence.
+                <br><strong>Example Models:</strong> GPT, GPT-2, GPT-4 (good for generating text).
+            </p>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">3. Encoder-Decoder</h5>
+            <p class="card-text">
+                Combines both components. The encoder processes the input, and the decoder generates the output based on encoder outputs and previously generated tokens.
+                <br><strong>Example Models:</strong> T5, BART (used for translation, summarization, Q&A).
+            </p>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Key Features</h5>
+            <ul>
+                <li>Uses self-attention instead of recurrence (RNNs/LSTMs)</li>
+                <li>Enables parallel training for efficiency</li>
+                <li>Captures long-range dependencies in text</li>
+                <li>Foundation of most modern NLP models</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
