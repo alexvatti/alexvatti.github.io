@@ -1,0 +1,66 @@
+/* === Base Body Style === */
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+/* === Hero Section === */
+.hero-section {
+    background: #007bff;
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+/* === Description Section === */
+.description-section {
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.description-section p {
+    max-width: 900px;
+    margin: 10px auto;
+    font-size: 16px;
+    color: #333;
+}
+
+/* === Video Section === */
+.video-section {
+    padding: 50px 0;
+    text-align: center;
+}
+
+.video-section iframe {
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.content-section {
+    padding: 40px 20px;
+}
+.summary-box {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* === Card Styles (Used in ML Lifecycle or other sections) === */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 5px solid #28a745;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    background-color: #eafaf1;
+}
+
+.card-title {
+    color: #28a745;
+    font-weight: bold;
+}
