@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Prediction using ANN - PyTorch</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+
+    <div class="hero-section">
+        <h1>Deep Learning for House Price Prediction</h1>
+        <p>ANN Regression Model • Real Estate Forecasting • AI-Powered Insights</p>
+    </div>
+
+    <div class="container">
+        <h2 class="mb-3 text-center">House Price Prediction using ANN (PyTorch)</h2>
+        <p class="text-left">
+            This project utilizes an <strong>Artificial Neural Network (ANN)</strong> built with <strong>PyTorch</strong> to predict house prices based on a variety of residential property features. 
+            Input features include <strong>square footage, bedrooms, bathrooms, garage type and area, presence of amenities like fireplace and pool, location data (city, zip code)</strong> and more.
+        </p>
+        <p class="text-left">
+            The life cycle includes:
+            <ul>
+                <li><strong>Data Preprocessing:</strong> Managing missing values, encoding categorical data (like garage type), and feature scaling.</li>
+                <li><strong>Model Building:</strong> Designing and training a feedforward ANN using PyTorch for regression tasks.</li>
+                <li><strong>Evaluation:</strong> Using MAE, MSE, RMSE, and R² Score to assess model performance.</li>
+                <li><strong>Model Saving:</strong> Storing the trained model using `.pt` format for future inference.</li>
+                <li><strong>Deployment:</strong> Integration into a frontend app to provide real-time price estimates based on user inputs.</li>
+                <li><strong>Monitoring:</strong> Keeping track of model performance and updating with new housing market trends.</li>
+            </ul>
+        </p>
+        <p class="text-left">
+            <strong>Challenges:</strong> Handling large variance in house features, dealing with outliers, multicollinearity, and ensuring generalization across diverse locations and property types.
+        </p>
+    </div>
+
+    <div data-include="../../assets/components/deep_learning_lifecycle.html"></div>
+
+    <br>
+    <div class="video-section">
+        <h2 class="mb-4">📺 Watch the Demo</h2>
+
+        <iframe width="720" height="400" src="https://www.youtube.com/embed/xs6khV01CmE?si=9ahqanzVMzCW8i-q" 
+        title="YouTube video player" frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+    <br>
+    <script src="../../assets/js/include.js" defer></script>
+</body>
+</html>
