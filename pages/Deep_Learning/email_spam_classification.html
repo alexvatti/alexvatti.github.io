@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Spam/Ham Classification using LSTM & TF-IDF</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body>
+
+    <div class="hero-section">
+        <h1>Email Spam Detection with LSTM and TF-IDF</h1>
+        <p>LSTM Classification Model • Natural Language Processing • Real-time Spam Filtering</p>
+    </div>
+
+    <div class="container">
+        <h2 class="mb-3 text-center">Email Spam/Ham Classification using Deep Learning</h2>
+        <p class="text-left">
+            This project uses a hybrid approach combining <strong>TF-IDF (Term Frequency-Inverse Document Frequency)</strong> for feature extraction and an <strong>LSTM (Long Short-Term Memory)</strong> network to classify emails as spam or ham. 
+            It enables robust spam detection leveraging both statistical features and contextual memory in sequences.
+        </p>
+        <p class="text-left">
+            The life cycle includes:
+            <ul>
+                <li><strong>Data Preprocessing:</strong> Removing HTML tags, stopwords, punctuation, tokenizing, stemming/lemmatization, and transforming with TF-IDF.</li>
+                <li><strong>Model Building:</strong> Constructing an LSTM-based deep learning classifier using TensorFlow/Keras for sequence modeling.</li>
+                <li><strong>Evaluation:</strong> Using Accuracy, Precision, Recall, F1-Score, and ROC-AUC metrics to evaluate model performance.</li>
+                <li><strong>Model Saving:</strong> Exporting the trained model in `.h5` format for integration and deployment.</li>
+                <li><strong>Deployment:</strong> Embedding the model into a lightweight Flask-based web application for real-time email classification.</li>
+                <li><strong>Monitoring:</strong> Logging predictions, monitoring spam trends, and updating the model with new data for continual improvement.</li>
+            </ul>
+        </p>
+        <p class="text-left">
+            <strong>Challenges:</strong> Handling noisy email data, maintaining balance between false positives and false negatives, avoiding overfitting, and ensuring fast prediction times in real-world use.
+        </p>
+    </div>
+
+    <div data-include="../../assets/components/deep_learning_lifecycle.html"></div>
+
+    <br>
+    <div class="video-section">
+        <h2 class="mb-4">📺 Watch the Demo</h2>
+
+        <iframe width="720" height="400" src="https://www.youtube.com/embed/DuXM2qGlUxI?si=TeGLYsUjN-KaYOVh" 
+        title="YouTube video player" frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+    <br>
+    <script src="../../assets/js/include.js" defer></script>
+</body>
+</html>
